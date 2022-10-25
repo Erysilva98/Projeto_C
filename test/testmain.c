@@ -5,72 +5,60 @@
 typedef struct cel
 {
     int valor;
-    struct cel *prox;   
-
-}Celula;
+    struct  cel *prox;
+} Celula;
 
 typedef struct 
 {
     Celula *topo;
-
+    int pos;
 }Pilha;
 
-Celula *novo(int valor)
-{
-    Celula *v = (Celula *) malloc(sizeof(Celula));
-    v->valor = valor;
-    v->prox = NULL;
-    return v;
-}
-
-Pilha *iniciar()
-{
-    Pilha *p = (Pilha *)malloc(sizeof(Pilha));
-    p->topo = 0;
-    return p;
-}
-
+// Função Push
 void empilhar(Pilha *p, int num)
 {
-    Celula *v = novo(num);
+    Celula *cel = malloc(sizeof(Celula));
 
-    v->prox = p->topo;
-    p->topo = v;
+    cel->valor = num;
+    cel->prox = p->topo;
+    p->topo = cel;
+    p->pos++;
 }
 
-int desempilha(Pilha *p)
+// Função POP
+void desempilhar(Pilha *p)
 {
-    Celula *n;
-    int temp;
+    Celula *cel = NULL;
 
-    n = p->topo;
-    temp = n->valor;
-    p->topo = n->prox;
-    free(n);
-
-    return temp;
+    if(p->topo != NULL)
+    {
+        cel = p->topo;
+        p->topo = cel->prox;
+        p->pos--;
+    }
+    else
+    {
+        printf("\n Pilha Vazia \n");
+    }
 }
 
-int topo(Pilha *p)
-{
-    return p->topo->valor;
-}
 
+// Função Imprimir Pilha
 void listaPilha(Pilha *p)
 {
-    Celula *n = p->topo;
+    Celula *cel = p->topo;
 
-    if(n == NULL)
+    if(cel == NULL)
     {
         printf("\n Pilha Vazia \n");
         return;
     }
     else
     {
-        while(n != NULL)
+        while(cel != NULL)
         {
-            printf(" %d ", n->valor);
-            n = n->prox;
+            printf(" %d ", cel->valor);
+            cel = cel->prox;
         }
         printf("\n");
     }
@@ -80,13 +68,16 @@ int main()
 {
     int i, op, tam, num;
     Pilha *p;
+    p->pos = 0;
+    p->topo = NULL;
+    Celula *cel;
 
 	while( 1 ){ 
 
-        printf("\n1- INIT e PUSH ");
-		printf("\n2- Lista Pilha");
-        printf("\n3- POP - Remover e Lista ");   
-        printf("\n4- Ordenar e Exibir"); 
+        printf("\n1- Função INIT e PUSH ");
+		printf("\n2- Função para Lista Pilha");
+        printf("\n3- Função POP - Remover e Lista ");   
+        printf("\n4- Função Ordenar e Exibir"); 
         printf("\n5- Sair");
 		printf("\n\n Opcao? ");
 		scanf("%d", &op);
@@ -99,23 +90,22 @@ int main()
                 printf("Informe o Tamanho do Vetor: ");
                 scanf("%d", &tam);
 
-                p = iniciar();
+                Pilha *cel = (Pilha*) malloc(sizeof(Pilha));
 
-                if(p)
+                if(cel)
                 {
-                   printf("\n Memoria Alocada com Sucesso \n\n");
+                   printf("\n Memória Alocada com Sucesso \n\n");
                    for(i = 0; i<tam; i++)
                    { 
                         num = rand() % 100;
                         printf("%d ",num);
-                        empilhar(p,num);
-                        
+                        empilhar(cel,num);
                     }      
-                    printf("\n");           
+                    printf("\n");            
                 }
                 else
                 {
-                    printf("\n Erro de Alocacao de Memoria \n");
+                    printf("\n Erro de Alocação de Memória \n");
                 }
                 break;
 
@@ -123,7 +113,7 @@ int main()
             case 2:
             {
                 printf("\nListando a Pilha Criada\n\n");
-                listaPilha(p); 
+                listaPilha(cel);
                 break;
             }
 
@@ -131,7 +121,8 @@ int main()
             case 3:
             {
                 printf("\nFunção POP - Remover intem do Topo na Pilha\n\n");
-                
+                desempilhar(cel);
+                listaPilha(cel);
                 break;
             }
 

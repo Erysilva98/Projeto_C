@@ -12,3 +12,6 @@ Além da estrutura de dados, vcs também deverão criar as seguintes funções p
 - Pop   > retirar
 - Sort Merge > ordenação 
 - Clear > deletar
+
+
+https://embarcados.com.br/vetor-de-struct/

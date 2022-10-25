@@ -1,154 +1,63 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h> 
+#include <string.h>
+#include <locale.h>
 
-typedef struct cel
-{
-    int valor;
-    struct  cel *prox;
-} Celula;
+#define tam 2
 
 typedef struct 
 {
-    Celula *topo;
+    int cod;
+    float media;
+    
+}Registro;
+
+typedef struct 
+{
+    int topo;
     int pos;
 }Pilha;
 
-// Função Push
-void empilhar(Pilha *p, int num)
+Pilha *init()
 {
-    Celula *cel = malloc(sizeof(Celula));
-
-    cel->valor = num;
-    cel->prox = p->topo;
-    p->topo = cel;
-    p->pos++;
+    Pilha *lista = (Pilha *) malloc(sizeof(Pilha));
+    lista->topo = 0;
+    return lista;
 }
 
-// Função POP
-void desempilhar(Pilha *p)
+void push(Pilha *p, Registro v[])
 {
-    Celula *cel = NULL;
+    int i; 
 
-    if(p->topo != NULL)
+    for(i=0; i<tam; i++)
     {
-        cel = p->topo;
-        p->topo = cel->prox;
-        p->pos--;
-    }
-    else
-    {
-        printf("\n Pilha Vazia \n");
-    }
-}
-
-
-// Função Imprimir Pilha
-void listaPilha(Pilha *p)
-{
-    Celula *cel = p->topo;
-
-    if(cel == NULL)
-    {
-        printf("\n Pilha Vazia \n");
-        return;
-    }
-    else
-    {
-        while(cel != NULL)
-        {
-            printf(" %d ", cel->valor);
-            cel = cel->prox;
-        }
         printf("\n");
+        printf(" Digite o Código do aluno: ");
+        scanf("%d%*c", &v[i].cod);
+        printf(" Digite a Media do aluno: ");
+        scanf("%f%*c", &v[i].media);   
+        printf("\n---------\n");           
     }
+}
+
+int pilhaCheia(Pilha *p)
+{
+    return p->topo == tam;
+}
+
+int pilhaVazia(Pilha *p)
+{
+    return p->topo == 0;
 }
 
 int main()
 {
-    int i, op, tam, num;
-    Pilha *p;
-    p->pos = 0;
-    p->topo = NULL;
-    Celula *cel;
+    Pilha *lista;
+    Registro info[tam];
 
-	while( 1 ){ 
+    lista = init();
 
-        printf("\n1- Função INIT e PUSH ");
-		printf("\n2- Função para Lista Pilha");
-        printf("\n3- Função POP - Remover e Lista ");   
-        printf("\n4- Função Ordenar e Exibir"); 
-        printf("\n5- Sair");
-		printf("\n\n Opcao? ");
-		scanf("%d", &op);
+    push(lista,info);
 
-		switch (op){
-
-            // Criar e Adicionar
-            case 1: 
-                printf("\nFunção INIT e PUSH \n");
-                printf("Informe o Tamanho do Vetor: ");
-                scanf("%d", &tam);
-
-                Pilha *cel = (Pilha*) malloc(sizeof(Pilha));
-
-                if(cel)
-                {
-                   printf("\n Memória Alocada com Sucesso \n\n");
-                   for(i = 0; i<tam; i++)
-                   { 
-                        num = rand() % 100;
-                        printf("%d ",num);
-                        empilhar(cel,num);
-                    }      
-                    printf("\n");            
-                }
-                else
-                {
-                    printf("\n Erro de Alocação de Memória \n");
-                }
-                break;
-
-            // Exibir Pilha Criada 
-            case 2:
-            {
-                printf("\nListando a Pilha Criada\n\n");
-                listaPilha(cel);
-                break;
-            }
-
-            // Remover intem da Pilha
-            case 3:
-            {
-                printf("\nFunção POP - Remover intem do Topo na Pilha\n\n");
-                desempilhar(cel);
-                listaPilha(cel);
-                break;
-            }
-
-            // Ordenação Merge Sort  "Desistir"
-            case 4: 
-            {
-                printf("\nMerge Sort \n");
-                break;
-            }
-
-            // Sair
-            case 5: 
-                printf("\nSaindo ...\n");
-                exit(0);
-
-			default: printf( "\nOPCAO INVALIDA! \n" ); 
-		}
-	}
     return 0;
 }
-
-
-// Merge Sort
-
-
-
-
-
-                
